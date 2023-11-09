@@ -11,6 +11,7 @@ authors = [
 dependencies = [
   "appdirs",
   "cmd2",
+  "requests",
 ]
 description = "Dictionary lookup from Wiktionary for inflected Arabic words"
 readme = "README.md"

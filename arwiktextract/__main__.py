@@ -1,8 +1,8 @@
 import readline
-from appdirs import AppDirs
 from pathlib import Path
 
 from arwiktextract.shell import Shell
+from arwiktextract import datadir
 
 
 try:
@@ -12,7 +12,7 @@ try:
 except ImportError:
     pass
 
-historyfile = Path(AppDirs("arwiktextract", "cdh").user_data_dir) / "history"
+historyfile = Path(datadir) / "history"
 
 
 def save_history() -> None:

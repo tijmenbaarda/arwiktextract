@@ -66,7 +66,6 @@ class TestData:
     def test_get_by_index_not_found(self, data_processed: Data):
         assert data_processed.get_by_index(5000) is None
 
-
     def test_get_indices_by_normalized_form(self, data_processed):
         indices = data_processed.get_indices_by_normalized_form("الكتاب")
         assert len(indices) == 2

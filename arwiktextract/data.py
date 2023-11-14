@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
 import requests
-import pickle
 import sqlite3
 from typing import Optional, Union
 import logging
@@ -17,9 +16,7 @@ class WiktextractException(RuntimeError):
 
 
 class Data:
-    DATA_URL = (
-        "https://kaikki.org/dictionary/Arabic/kaikki.org-dictionary-Arabic.json"
-    )
+    DATA_URL = "https://kaikki.org/dictionary/Arabic/kaikki.org-dictionary-Arabic.json"
     data = None
     index = None
     originaldatafile: Path
@@ -68,32 +65,32 @@ class Data:
             self._connect_db()
         assert self.con is not None
         assert self.cur is not None
-        self.cur.execute("""
+        self.cur.execute(
+            """
 CREATE TABLE entry(id INTEGER PRIMARY KEY,
                    content TEXT);
-        """)
-        self.cur.execute("""
+        """
+        )
+        self.cur.execute(
+            """
 CREATE TABLE form(id INTEGER PRIMARY KEY,
                   form TEXT,
                   entry INTEGER,
                   CONSTRAINT no_duplicates UNIQUE (form, entry)
                   FOREIGN KEY(entry) REFERENCES entries(id));
-        """)
+        """
+        )
 
     def _add_entry(self, index: int, data: str):
         assert self.cur is not None
         assert self.con is not None
-        self.cur.execute(
-            "INSERT INTO entry(id, content) VALUES(?, ?);",
-            (index, data)
-        )
+        self.cur.execute("INSERT INTO entry(id, content) VALUES(?, ?);", (index, data))
 
     def _add_form(self, form: str, index: int):
         assert self.cur is not None
         assert self.con is not None
         self.cur.execute(
-            "INSERT OR IGNORE INTO form(form, entry) VALUES(?, ?);",
-            (form, index)
+            "INSERT OR IGNORE INTO form(form, entry) VALUES(?, ?);", (form, index)
         )
 
     def _process_database(self):
@@ -115,9 +112,7 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
                 data = json.loads(line)
                 assert isinstance(data, dict)
             except json.JSONDecodeError as err:
-                raise WiktextractException(
-                    f"Error processing Wiktextract data: {err}"
-                )
+                raise WiktextractException(f"Error processing Wiktextract data: {err}")
             # TODO: Skip inflected forms (or not...)
             if "forms" not in data:
                 no_forms += 1
@@ -140,10 +135,7 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
     def get_by_index(self, index: int) -> Optional[dict]:
         self.prepare_data()
         assert self.cur is not None
-        res = self.cur.execute(
-            "SELECT content FROM entry WHERE id=?",
-            (index,)
-        )
+        res = self.cur.execute("SELECT content FROM entry WHERE id=?", (index,))
         result = res.fetchone()
         if result is None:
             return None
@@ -157,9 +149,6 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
     def get_indices_by_normalized_form(self, form: str) -> list[int]:
         self.prepare_data()
         assert self.cur is not None
-        res = self.cur.execute(
-            "SELECT entry FROM form WHERE form=?",
-            (form,)
-        )
+        res = self.cur.execute("SELECT entry FROM form WHERE form=?", (form,))
         result = res.fetchall()
         return [int(x[0]) for x in result]

@@ -21,9 +21,9 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-appdirs = "^1.4"
+appdirs = "^1.4.4"
 cmd2 = "^2.4"
-requests = "^2.31"
+requests = "^2.31.0"
 
 
 [tool.poetry.group.dev.dependencies]

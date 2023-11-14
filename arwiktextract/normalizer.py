@@ -10,7 +10,7 @@ SUBSTITUTIONS = {
 REMOVALS = "ًٌٍَُِّْ"
 
 
-def normalize(input_string):
+def normalize(input_string: str) -> str:
     vowels_removed = input_string.translate({ord(i): None for i in REMOVALS})
     diacritics_removed = vowels_removed.translate(
         {ord(i): ord(SUBSTITUTIONS[i]) for i in SUBSTITUTIONS}

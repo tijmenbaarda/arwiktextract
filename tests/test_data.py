@@ -1,7 +1,7 @@
 from pathlib import Path
 import pytest
 
-from arwiktextract.data import Data
+from arwiktextract.data import Data, WiktextractError, NotFoundError
 
 TESTDATAPATH = Path(__file__).parent / "data" / "wiktionary-arabic.json"
 
@@ -60,11 +60,13 @@ class TestData:
 
     def test_get_by_index(self, data_processed: Data):
         data = data_processed.get_by_index(0)
-        assert isinstance(data, dict)
-        assert data["pos"] == "noun"
+        datadict = data.data
+        assert isinstance(datadict, dict)
+        assert datadict["pos"] == "noun"
 
     def test_get_by_index_not_found(self, data_processed: Data):
-        assert data_processed.get_by_index(5000) is None
+        with pytest.raises(NotFoundError):
+            data_processed.get_by_index(5000)
 
     def test_get_indices_by_normalized_form(self, data_processed):
         indices = data_processed.get_indices_by_normalized_form("الكتاب")

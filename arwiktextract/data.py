@@ -7,11 +7,16 @@ import logging
 
 from arwiktextract import datadir
 from .normalizer import normalize
+from .entry import Entry
 
 logger = logging.getLogger(__file__)
 
 
-class WiktextractException(RuntimeError):
+class WiktextractError(RuntimeError):
+    pass
+
+
+class NotFoundError(WiktextractError):
     pass
 
 
@@ -41,11 +46,11 @@ class Data:
                 with open(self.originaldatafile, "wb") as f:
                     f.write(response.content)
             except OSError as err:
-                raise WiktextractException(
+                raise WiktextractError(
                     f"Error writing database file to disk: {err}"
                 )
         else:
-            raise WiktextractException(
+            raise WiktextractError(
                 f"Error downloading database file from {self.DATA_URL}"
             )
         logger.info(f"Successfully saved database to {self.originaldatafile}.")
@@ -108,11 +113,14 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
         self._create_tables()
         assert self.con is not None
         for index, line in enumerate(f):
+            if index > 0 and index % 1000 == 0:
+                print(f"{index} items processed")
+                self.con.commit()
             try:
                 data = json.loads(line)
                 assert isinstance(data, dict)
             except json.JSONDecodeError as err:
-                raise WiktextractException(f"Error processing Wiktextract data: {err}")
+                raise WiktextractError(f"Error processing Wiktextract data: {err}")
             # TODO: Skip inflected forms (or not...)
             if "forms" not in data:
                 no_forms += 1
@@ -122,7 +130,7 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
                 form = formdata["form"]
                 normalized = normalize(form)
                 self._add_form(normalized, index)
-            self.con.commit()
+        self.con.commit()
         f.close()
         print("Processing database successful. Items without form: {}".format(no_forms))
 
@@ -131,20 +139,21 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
             self._download_database()
         if not self.databasefile.exists() or refresh:
             self._process_database()
+        self._connect_db()
 
-    def get_by_index(self, index: int) -> Optional[dict]:
+    def get_by_index(self, index: int) -> Entry:
         self.prepare_data()
         assert self.cur is not None
         res = self.cur.execute("SELECT content FROM entry WHERE id=?", (index,))
         result = res.fetchone()
         if result is None:
-            return None
+            raise NotFoundError()
         data_json = result[0]
         try:
             data = json.loads(data_json)
         except json.JSONDecodeError as err:
-            raise WiktextractException(err)
-        return data
+            raise WiktextractError(f"Error parsing content in database: {err}")
+        return Entry(data=data)
 
     def get_indices_by_normalized_form(self, form: str) -> list[int]:
         self.prepare_data()
@@ -152,3 +161,7 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
         res = self.cur.execute("SELECT entry FROM form WHERE form=?", (form,))
         result = res.fetchall()
         return [int(x[0]) for x in result]
+
+    def get_by_normalized_form(self, form: str) -> list[Entry]:
+        indices = self.get_indices_by_normalized_form(form)
+        return [self.get_by_index(x) for x in indices]

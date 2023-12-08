@@ -22,8 +22,6 @@ class NotFoundError(WiktextractError):
 
 class Data:
     DATA_URL = "https://kaikki.org/dictionary/Arabic/kaikki.org-dictionary-Arabic.json"
-    data = None
-    index = None
     originaldatafile: Path
     databasefile: Path
     con: Optional[sqlite3.Connection] = None
@@ -100,8 +98,6 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
 
     def _process_database(self):
         logger.info("Processing database...")
-        self.data = []
-        self.index = {}
         no_forms = 0
         f = open(self.originaldatafile)
         if self.con:
@@ -165,3 +161,12 @@ CREATE TABLE form(id INTEGER PRIMARY KEY,
     def get_by_normalized_form(self, form: str) -> list[Entry]:
         indices = self.get_indices_by_normalized_form(form)
         return [self.get_by_index(x) for x in indices]
+
+    def get_by_form(self, form: str) -> list[Entry]:
+        """Return entries that match with the given form. The form may 
+        or may not contain vowel signs, hamzas and other special characters,
+        and only if present they will be taken into account."""
+        # First get all entries that may match according to the fully
+        # normalized form
+        entries = self.get_by_normalized_form(normalize(form))
+        return [entry for entry in entries if entry.find_matching_forms(form)]

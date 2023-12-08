@@ -17,12 +17,22 @@ class Shell(cmd2.Cmd):
     prompt = "[arwiktextract] # "
     data: Data
 
-    def show_entry(self, entry: Entry) -> None:
+    def show_entry(self, entry: Entry, inputform: str) -> None:
         pos = as_cell(entry.pos, 5)
         glosses = as_cell(entry.glosses_summarized, 80)
-        self.poutput(
-            f"{pos} {glosses}"
-        )
+        cf = as_cell(entry.canonical_form or "-", 15)
+        for i, form in enumerate(entry.find_matching_forms(inputform)):
+            form_str = as_cell(form.form, 15)
+            tags_str = as_cell(form.tags_summary, 50)
+            if i == 0: 
+                self.poutput(
+                    f"{cf } {pos} {glosses} {form_str} {tags_str}"
+                )
+            else:
+                self.poutput(
+                    " " * 103 + form_str + " " + tags_str
+                )
+
 
     def __init__(self):
         super().__init__()
@@ -31,10 +41,10 @@ class Shell(cmd2.Cmd):
 
     def do_word(self, args, show_raw=False):
         word = args
-        entries = self.data.get_by_normalized_form(word)
+        entries = self.data.get_by_form(word)
         for entry in entries:
             if not show_raw:
-                self.show_entry(entry)
+                self.show_entry(entry, word)
             else:
                 self.poutput(json.dumps(entry.data, ensure_ascii=False, indent=4))
 

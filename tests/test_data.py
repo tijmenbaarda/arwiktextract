@@ -72,3 +72,13 @@ class TestData:
         indices = data_processed.get_indices_by_normalized_form("الكتاب")
         assert len(indices) == 2
         assert indices[0] == 0
+
+    def test_get_by_form(self, data_processed: Data):
+        entries = data_processed.get_by_form("الكتاب")
+        assert len(entries) == 2
+        entries = data_processed.get_by_form("الكُتّاب")
+        assert len(entries) == 1
+        entries = data_processed.get_by_form("الكِتاب")
+        assert len(entries) == 1
+        entries = data_processed.get_by_form("الكَتاب")
+        assert len(entries) == 0

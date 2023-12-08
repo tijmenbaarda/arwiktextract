@@ -1,0 +1,233 @@
+{
+    "pos": "noun",
+    "forms": [
+        {
+            "form": "قَصَص",
+            "tags": [
+                "canonical"
+            ]
+        },
+        {
+            "form": "qaṣaṣ",
+            "tags": [
+                "romanization"
+            ]
+        },
+        {
+            "form": "",
+            "source": "declension",
+            "tags": [
+                "table-tags"
+            ]
+        },
+        {
+            "form": "ar-decl-noun",
+            "source": "declension",
+            "tags": [
+                "inflection-template"
+            ]
+        },
+        {
+            "form": "قَصَص",
+            "tags": [
+                "indefinite",
+                "informal",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣ"
+        },
+        {
+            "form": "الْقَصَص",
+            "tags": [
+                "definite",
+                "informal",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "al-qaṣaṣ"
+        },
+        {
+            "form": "قَصَص",
+            "tags": [
+                "construct",
+                "informal",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣ"
+        },
+        {
+            "form": "قَصَصٌ",
+            "tags": [
+                "indefinite",
+                "nominative",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣun"
+        },
+        {
+            "form": "الْقَصَصُ",
+            "tags": [
+                "definite",
+                "nominative",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "al-qaṣaṣu"
+        },
+        {
+            "form": "قَصَصُ",
+            "tags": [
+                "construct",
+                "nominative",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣu"
+        },
+        {
+            "form": "قَصَصًا",
+            "tags": [
+                "accusative",
+                "indefinite",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣan"
+        },
+        {
+            "form": "الْقَصَصَ",
+            "tags": [
+                "accusative",
+                "definite",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "al-qaṣaṣa"
+        },
+        {
+            "form": "قَصَصَ",
+            "tags": [
+                "accusative",
+                "construct",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣa"
+        },
+        {
+            "form": "قَصَصٍ",
+            "tags": [
+                "genitive",
+                "indefinite",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣin"
+        },
+        {
+            "form": "الْقَصَصِ",
+            "tags": [
+                "definite",
+                "genitive",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "al-qaṣaṣi"
+        },
+        {
+            "form": "قَصَصِ",
+            "tags": [
+                "construct",
+                "genitive",
+                "singular",
+                "triptote"
+            ],
+            "source": "declension",
+            "roman": "qaṣaṣi"
+        }
+    ],
+    "inflection_templates": [
+        {
+            "name": "ar-decl-noun",
+            "args": {
+                "1": "قَصَص"
+            }
+        }
+    ],
+    "etymology_number": 1,
+    "etymology_text": "",
+    "etymology_templates": [],
+    "word": "قصص",
+    "lang": "Arabic",
+    "lang_code": "ar",
+    "senses": [
+        {
+            "links": [
+                [
+                    "narrative",
+                    "narrative"
+                ]
+            ],
+            "glosses": [
+                "narrative"
+            ],
+            "tags": [
+                "uncountable"
+            ],
+            "id": "قصص-ar-noun-s8kDycSk",
+            "categories": [
+                {
+                    "name": "Arabic entries with language name categories using raw markup",
+                    "kind": "other",
+                    "parents": [
+                        "Entries with language name categories using raw markup",
+                        "Entry maintenance"
+                    ],
+                    "source": "w+disamb",
+                    "_dis": "39 21 40"
+                }
+            ]
+        },
+        {
+            "links": [
+                [
+                    "storytelling",
+                    "storytelling"
+                ]
+            ],
+            "glosses": [
+                "storytelling"
+            ],
+            "tags": [
+                "uncountable"
+            ],
+            "id": "قصص-ar-noun-70NjfJ9Y",
+            "categories": [
+                {
+                    "name": "Arabic entries with language name categories using raw markup",
+                    "kind": "other",
+                    "parents": [
+                        "Entries with language name categories using raw markup",
+                        "Entry maintenance"
+                    ],
+                    "source": "w+disamb",
+                    "_dis": "39 21 40"
+                }
+            ]
+        }
+    ]
+}
